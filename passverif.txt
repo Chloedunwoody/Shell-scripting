@@ -1,0 +1,86 @@
+#!/bin/bash
+strength=0
+pass=$1
+response=""
+evaluation=""
+
+#Check if parameter is blank or has 2 parameters
+
+if [[ -z "${pass}" ]]
+then
+        echo "A password to validate is required, exiting."
+        exit 0
+elif [[ "$#" -ne 1 ]]
+then
+        echo "One single parameter is expected for this script, exiting."
+        exit 0
+else
+
+        if [[ ${#pass} -ge 8 ]]
+        then
+                response="YES"
+                ((strength++))
+        else
+                response="NO"
+        fi
+fi
+
+echo "Password longer than 8 characters?" $response
+
+if [[ ${#pass} -lt 20 ]]
+then
+response="YES"
+((strength++))
+else
+response="NO"
+fi
+echo "Password less than 20 characters?" $response
+
+if [[ "$pass" =~ [a-zA-Z] ]]
+then
+response="YES"
+((strength++))
+else
+response="NO"
+fi
+echo "Does the password contain alphabetic characters?" $response
+
+if [[ "$pass" =~ [0-9] ]] #check again
+then
+response="YES"
+((strength++))
+else
+response="NO"
+fi
+echo "Does the password contain a number or more?" $response
+
+if [[ "$pass" =~ ['#\$%&'] ]]
+then
+response="YES"
+((strength++))
+else
+response="NO"
+fi
+echo "Does the password contain a symbol from '#', '$', '%', '&'?" $response
+echo "-------------------------------"
+echo "Password Score:" $strength
+
+if [[ $strength -lt 0 ]]
+then
+evaluation="Very Weak."
+elif [[ $strength -ge 1  && $strength -le 2 ]]
+then
+evaluation="Weak."
+elif [[ $strength -ge 3 && $strength -le 4 ]]
+then
+evaluation="Average."
+elif [[ $strength -gt 4 ]]
+then
+evaluation="Strong."
+else
+echo unknown
+fi
+
+echo "Password Evaluation:" $evaluation
+
+                                                               73,12         89%
